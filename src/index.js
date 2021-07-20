@@ -1,1 +1,1 @@
-import './js/timer';
+import './js/countdown-timer';

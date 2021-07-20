@@ -1,0 +1,12 @@
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: 2px solid red;
+  margin-bottom: 10px;
+}
+
+.field {
+  margin: 5px;
+  outline: 2px solid green;
+}
