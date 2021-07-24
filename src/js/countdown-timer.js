@@ -3,6 +3,7 @@ class CountdownTimer {
     this.selector = selector;
     this.targetDate = targetDate;
     this.timerRef = document.querySelector(this.selector);
+    this.timerId = null;
   }
 
   makeMarkup() {
