@@ -1,8 +1,4 @@
 class CountdownTimer {
-  timerId;
-  selector;
-  timerRef;
-
   constructor({ selector, targetDate }) {
     this.selector = selector;
     this.targetDate = targetDate;
@@ -55,34 +51,39 @@ class CountdownTimer {
   startTimer() {
     this.makeMarkup();
 
-    const Refs = this.Refs;
-    const deadline = this.targetDate;
-
-    this.timerId = setInterval(this.updateCountdownTime, 1000, deadline, Refs);
+    this.timerId = setInterval(() => {
+      this.updateCountdownTime();
+    }, 1000);
   }
 
-  updateCountdownTime(deadline, Refs) {
-    const time = deadline - Date.now();
+  pad(value) {
+    return String(value).padStart(2, '0');
+  }
 
-    const days = Math.floor(time / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-    const secs = Math.floor((time % (1000 * 60)) / 1000);
-
-    if (time >= 0) {
-      Refs.days.textContent = days;
-      Refs.hours.textContent = hours;
-      Refs.mins.textContent = mins;
-      Refs.secs.textContent = secs;
-      return;
-    }
-
-    Refs.days.textContent = '00';
-    Refs.hours.textContent = '00';
-    Refs.mins.textContent = '00';
-    Refs.secs.textContent = '00';
-
+  stopTimer() {
     clearInterval(this.timerId);
+
+    this.Refs.days.textContent = '00';
+    this.Refs.hours.textContent = '00';
+    this.Refs.mins.textContent = '00';
+    this.Refs.secs.textContent = '00';
+  }
+
+  updateCountdownTime() {
+    const time = this.targetDate - Date.now();
+    const days = this.pad(Math.floor(time / (1000 * 60 * 60 * 24)));
+    const hours = this.pad(Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+    const mins = this.pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
+    const secs = this.pad(Math.floor((time % (1000 * 60)) / 1000));
+
+    this.Refs.days.textContent = days;
+    this.Refs.hours.textContent = hours;
+    this.Refs.mins.textContent = mins;
+    this.Refs.secs.textContent = secs;
+
+    if (time <= 0) {
+      this.stopTimer();
+    }
   }
 }
 
